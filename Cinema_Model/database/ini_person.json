@@ -1,1 +1,3 @@
-[ { "name": "Miles", "age": 29, "position": "Manager" }]
+[{ "name": "Miles", "age": 29, "position": "Manager" },
+    {"name": "Ralf", "age": 16, "position":"snack seller"},
+    {"name": "Milena", "age": 35, "position": "ticket seller"}]

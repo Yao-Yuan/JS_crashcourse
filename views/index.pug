@@ -1,0 +1,25 @@
+extends layout
+
+block content
+    h1 Welcome to Mappie
+    div(id = 'map')
+    style.
+      #map {
+        height: 700px;
+        width: 100%
+      }
+    script.
+        console.log('hello there 👋')
+        function initMap() {
+        var Berlin = {lat: 52.516761, lng: 13.3843081};
+        var map = new google.maps.Map(document.getElementById('map'), {
+          zoom: 12,
+          center: Berlin
+        });
+        var Home = {lat: 52.54344, lng: 13.357316}
+        var marker = new google.maps.Marker({
+          position: Home,
+          map: map
+        });
+      }
+    script(src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCQZFTZXjwBXhttTQjB2u8LjMZ1cpcde2o&callback=initMap")  

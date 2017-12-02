@@ -1,0 +1,11 @@
+extends layout
+
+block content
+    if location
+        h1 Hello, are you trying to find #{location.name}?
+        p Here is the detail:
+        pre = JSON.stringify(location, null, 2)
+    else
+        h1 Such place does not exsist!
+    script.
+        console.log(!{JSON.stringify(location)})

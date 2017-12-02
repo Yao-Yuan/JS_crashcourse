@@ -1,0 +1,19 @@
+extends layout
+
+block content
+    h1 Hello!
+    if places.length
+        p Here are the addresses:
+        table
+            thead
+                td Name
+            each place in places
+                tr
+                    td #{place.id}
+                    td #{place.Name}
+
+        pre= JSON.stringify(people, null, 2)
+    else
+        p No places added yet!
+    script.
+        console.log(!{JSON.stringify(places)})

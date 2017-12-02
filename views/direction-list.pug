@@ -1,0 +1,19 @@
+extends layout
+
+block content
+    h1 Hello!
+    if direction.length
+        p Here are the routes:
+        table
+            thead
+                td Name
+            each route in direction
+                tr
+                    td #{route.Id}
+                    td #{route.distance}
+
+        pre= JSON.stringify(direction, null, 2)
+    else
+        p No places added yet!
+    script.
+        console.log(!{JSON.stringify(direction)})

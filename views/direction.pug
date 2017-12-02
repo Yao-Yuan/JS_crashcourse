@@ -1,0 +1,33 @@
+extends layout
+
+block content
+    h1 Hello!
+    if direction.length>0
+        h1 Hello, are you trying to find direction from #{placeStack[0].Name} to #{placeStack[placeStack.length-1].Name}?
+        p Here are the directions:
+        table
+            thead
+                td From
+                td Step
+                td To
+            each route in direction
+                tr
+                    td #{route.start.address}
+                    td #{route.steps.html_instruction}
+                    td #{route.end.address}
+    else
+        p No direction yet!
+    script.
+        function initMap() {
+        var Berlin = {lat: 52.516761, lng: 13.3843081};
+        var map = new google.maps.Map(document.getElementById('map'), {
+          zoom: 12,
+          center: Berlin
+        });
+        var Home = {lat: 52.54344, lng: 13.357316}
+        var marker = new google.maps.Marker({
+          position: Home,
+          map: map
+        });
+      }
+        script(src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCQZFTZXjwBXhttTQjB2u8LjMZ1cpcde2o&callback=initMap")  

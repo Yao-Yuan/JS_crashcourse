@@ -17,6 +17,12 @@ router.post('/', async (req, res, next) => {
     res.send(place)
 })
 
+router.get('/:id', async (req, res, next) => {
+    const place = await LocationService.find(req.params.id)
+    if(!place) res.status(404)
+    res.send(place)
+})
+
 router.delete('/:id', async (req, res, next) => {
     await LocationService.del(req.params.id)
     res.send('ok!')

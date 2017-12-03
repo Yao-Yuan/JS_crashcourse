@@ -77,5 +77,11 @@ router.get('/', async(req, res, next) =>{
        }
     });
         
+router.get('/flexible', async(req, res, next) =>{})
+
+
+
+
+
 
 module.exports = router

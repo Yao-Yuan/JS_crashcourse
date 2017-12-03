@@ -4,15 +4,22 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "nyc ava --verbose",
+    "test-watch": "ava --verbose --watch"
   },
   "author": "yao_yuan_@outlook.com",
   "license": "MIT",
   "dependencies": {
     "@google/maps": "^0.4.5",
     "axios": "^0.17.1",
+    "cookie-parser": "^1.4.3",
     "mongoose": "^4.13.4",
     "mongoose-sequence": "^4.0.1",
     "pug": "^2.0.0-rc.4"
+  },
+  "devDependencies": {
+    "ava": "^0.24.0",
+    "nyc": "^11.3.0",
+    "supertest": "^3.0.0"
   }
 }

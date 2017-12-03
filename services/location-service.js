@@ -10,6 +10,10 @@ async function add(location) {
     return LocationModel.create(location)
 }
 
+async function find(id) {
+    return LocationModel.findOne({id})
+}
+
 async function del(id) {
     return LocationModel.remove({ id })
 }
@@ -21,6 +25,7 @@ async function clear(id) {
 module.exports = {
     findAll,
     add,
+    find,
     del,
     clear
 }

@@ -3,7 +3,7 @@ app:
   environment:
     - 'DB_URL=mongodb://mongodb/wtm'
     - VIRTUAL_HOST=app.yuan.yao
-  image: 'armaganlonca/wtmbjs-8:latest'
+  image: '13353185/jsproject:latest'
   ports:
     - '9999'
   restart: on-failure

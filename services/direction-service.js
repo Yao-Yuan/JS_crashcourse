@@ -45,16 +45,16 @@ async function getDirectionOne(From, To){           //Get direction from A to B.
                  From.Name + " to " + To.Name);
         })
         .catch((err) => {
-           console.log("An error in single direction fetch \n" )
+           console.log("An error in single direction fetch from " + From.Name + " to " + To.Name )
         })
     
     })}
 
 async function getFlexDirection(places) {        //Naive implementation: local optimal path -- always find the nearest one
-    return new Promise((resolve, reject) => {
+    return new Promise(async (resolve, reject) => {
         var duration = [];
-        var route = [];
         var direction = [];
+        var route = [];
         const placesNum = places.length;
         const startBase = places[0];
         for(i=0; i<placesNum - 1; i++){
@@ -69,15 +69,15 @@ async function getFlexDirection(places) {        //Naive implementation: local o
             })
     
             const index = duration[0].index;
-            route.push(direction[index])
+           route.push(direction[index])
             const buffer = places[index+1];
     
             places.splice(index+1, 1);      //delete itself from places array
             places.splice(0, 1, buffer);    //replace first place by the last closest place
             duration = [];
         }
-        const returnRoute = await getDirectionOne(places[0], startBase);   //Return route
-        route.push(returnRoute)
+        const backRoute = await getDirectionOne(places[0], startBase);   //route back to places[0]
+        route.push(backRoute)
         resolve(route)
         })
 }

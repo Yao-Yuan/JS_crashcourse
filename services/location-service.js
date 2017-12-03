@@ -10,16 +10,22 @@ async function add(location) {
     return LocationModel.create(location)
 }
 
-async function find(id) {
-    return LocationModel.findOne({id})
+async function find(Name) {
+    return LocationModel.findOne({Name})
 }
 
 async function del(id) {
     return LocationModel.remove({ id })
 }
 
-async function clear(id) {
+async function clear() {
     return LocationModel.remove({})
+}
+
+async function importAll(places) {
+    places.forEach(function(place){
+        LocationModel.create(place)
+    })
 }
 
 function sortbyType(places) {
@@ -43,11 +49,27 @@ function sortbyType(places) {
       return placeStack;
 }
 
+function swapOrder(indexA, indexB) {
+    const places = findAll();
+    var temp = places[indexA];
+    places[indexA] = places[indexB];
+    places[indexB] = temp;
+    clear();
+    importAll(places);
+}
+
+async function setType(id, type){
+    return LocationModel.findOneAndUpdate({id: id}, {Type: type})
+}
+
 module.exports = {
     findAll,
     add,
     find,
     del,
     clear,
-    sortbyType
+    importAll,
+    sortbyType,
+    swapOrder,
+    setType
 }

@@ -1,3 +1,4 @@
+
 const express = require('express')
 const router = express.Router()
 
@@ -22,57 +23,72 @@ router.delete('/', async (req, res, next) => {
 
 router.get('/', async(req, res, next) =>{
     const places = await LocationService.findAll()
-    var direction = [];
+    var routes = [];
+    var time = 0;
 
-    if(!places) {const response ='Please input addresses you want to go.'
-                  res.send(response)}
-   
+    if(!places) res.send('Please input addresses you want to go.')
 
-       else if(places.length === 1){                        //Check no. of places   
-         const response = 'Just stay there, you do not need me.'
-         console.log('only one place')
-         res.send(response)
-          }
+       else if(places.length === 1) res.send('Just stay there, you do not need me.')      //Check no. of places
 
         else if(places.length === 2){                    //Simple fetch direction
-           direction = await DirectionService.getDirectionOne(places[0], places[1])             
-           direction.steps.forEach(function(element){
-                res.write(element.html_instructions + '\n')
-                })
-           res.write("You now have reached " + places[1].Name)
-           res.send()
+          const direction = await DirectionService.getDirectionOne(places[0], places[1])
+          time = direction.duration.text;
+          routes.push (direction)   
+          res.render('direction', {routes, time})
         }
           
           else if(places.length > 2){               //Fetch directions along the given path  
-            const placeStack = LocationService.sortbyType(places);      
-
+            const placeStack = LocationService.sortbyType(places);    
             for(i = 0; i<placeStack.length-1; i++){    //Fetch direction in order
-               direction[i] = await DirectionService.getDirectionOne(placeStack[i], placeStack[i+1])
-              direction[i].steps.forEach(function(element){
-                res.write (element.html_instructions + '\n');
-              })
-              res.write ('You have now reached ' + placeStack[i+1].Name + '!\n\n' );
-            }       
-            res.send()
-       }
-    });
+                 const direction = await DirectionService.getDirectionOne(placeStack[i], placeStack[i+1])
+                 routes.push (direction)
+                 time += direction.duration.value;
+            }
+            time = calculatTime(time)
+            res.render('direction', {routes, time})
+          }
+});
         
-router.get('/flexible', async(req, res, next) =>{
+router.get('/flexible/return', async(req, res, next) =>{
     const places = await LocationService.findAll()
-
-    if(!places) res.send('Please add places that you want to go!')
-      else if(places.length == 2) res.send('Only two places are in the list. Flexible route not needed here.')
+    var time = 0;
+    if(!places || places === 1) res.send('Please add places that you want to go!')
+      else if(places.length === 2) res.send('Only two places are in the list. Flexible route not needed here.')
         else{
-          const sorting = DirectionService.getFlexDirection(places)
-          res.send(sorting)
+          const placeStack = await LocationService.sortbyType(places);
+          const routes = await DirectionService.getFlexDirection(places)
+
+          routes.forEach(function(route){
+            time += route.duration.value
+          })
+          time = calculatTime(time)
+          res.render('direction', {routes, time})
         }
-
-
 })
 
+router.get('/flexible', async(req, res, next) =>{
+  const places = await LocationService.findAll()
+  var time = 0;
+  if(!places || places === 1) res.send('Please add places that you want to go!')
+    else if(places.length === 2) res.send('Only two places are in the list. Flexible route not needed here.')
+      else{
+        const placeStack = await LocationService.sortbyType(places);
+        const routes = await DirectionService.getFlexDirection(places)
+        routes.splice(routes.length-1, 1)
+        routes.forEach(function(route){
+          time += route.duration.value
+        })
+        time = calculatTime(time)
+        res.render('direction', {routes, time})
+      }
+})
 
-
-
-
-
+function calculatTime(time){
+    var minute = Math.floor(time/60);
+    const seconds = time % 60;
+    const hour = Math.floor(minute/60)
+    if(hour) minute = minute - hour * 60;
+    const timeText = hour + " h " + minute +" m " + seconds + "s";
+    return timeText
+}
 module.exports = router

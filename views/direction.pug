@@ -2,19 +2,25 @@ extends layout
 
 block content
     h1 Hello!
-    if direction.length>0
-        h1 Hello, are you trying to find direction from #{placeStack[0].Name} to #{placeStack[placeStack.length-1].Name}?
-        p Here are the directions:
+    if routes.length>0
+        h1 I will be directing you to reach your destination
+        p Total estimated time : #{time}
         table
             thead
                 td From
                 td Step
                 td To
-            each route in direction
+                td Duration
+            each route in routes
                 tr
-                    td #{route.start.address}
-                    td #{route.steps.html_instruction}
-                    td #{route.end.address}
+                    td #{route.start.Name}
+                    td 
+                        table
+                            each step in route.steps
+                                tr
+                                    td #{step.html_instructions}
+                    td #{route.end.Name}
+                    td #{route.duration.text}
     else
         p No direction yet!
     script.

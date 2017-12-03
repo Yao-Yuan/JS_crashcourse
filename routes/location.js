@@ -33,6 +33,16 @@ router.delete('/', async (req, res, next) => {
     res.send('ok!')
 })
 
+router.post('/swap:idA:idB', async(req,res, next) => {
+    await LocationService.swapOrder(req.params.idA, req.params.idB)
+    res.send('ok!')
+})
+
+router.post('/set:id:type', async(req,res, next) =>{
+    await LocationService.setType(req.params.id, req.params.type)
+    res.send('ok!')
+})
+
 module.exports = router
 
     

@@ -31,7 +31,7 @@ router.delete('/:id', async (req, res, next) => {
 router.delete('/', async (req, res, next) => {
     await LocationService.clear()
     res.send('ok!')
-  })
+})
 
 module.exports = router
 

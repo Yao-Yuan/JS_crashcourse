@@ -35,52 +35,40 @@ router.get('/', async(req, res, next) =>{
           }
 
         else if(places.length === 2){                    //Simple fetch direction
-          console.log('I am here')
-           direction = await DirectionService.getDirectionOne(places[1], places[2], function(err,result){
-             if(!err){
-             result.steps.forEach(function(element){
+           direction = await DirectionService.getDirectionOne(places[0], places[1])             
+           direction.steps.forEach(function(element){
                 res.write(element.html_instructions + '\n')
-                res.send()
                 })
-             }
-           });
-          }
-
-          else if(places.length > 2){               //Fetch directions along the given path     
-            var response = '';     
-            var placeStack = [];          
-            places.forEach(function(element){       //Order adresses based on its Type
-              if(element.Type === 'Start'){
-                
-                placeStack.splice(0, 0, element);
-              }
-              else if(element.Type ==='Destination'){
-                placeStack.push(element);
-              }
-              else {
-                if(placeStack.length>0){
-                  if(placeStack[placeStack.length-1].Type === 'Destination')
-                    placeStack.splice(placeStack.length-2, 0, element )
-                    else placeStack.push(element);}
-                    else placeStack.push(element);
-              }
-            });
+           res.write("You now have reached " + places[1].Name)
+           res.send()
+        }
+          
+          else if(places.length > 2){               //Fetch directions along the given path  
+            const placeStack = LocationService.sortbyType(places);      
 
             for(i = 0; i<placeStack.length-1; i++){    //Fetch direction in order
-
                direction[i] = await DirectionService.getDirectionOne(placeStack[i], placeStack[i+1])
               direction[i].steps.forEach(function(element){
-                  response+= (element.html_instructions + '\n');
+                res.write (element.html_instructions + '\n');
               })
-              response += ('You have now reached ' + placeStack[i+1].Name + '!\n\n' );
+              res.write ('You have now reached ' + placeStack[i+1].Name + '!\n\n' );
             }       
-            console.log(response)
-           // res.render('direction', {direction, placeStack, response})
-            res.send(response)
+            res.send()
        }
     });
         
-router.get('/flexible', async(req, res, next) =>{})
+router.get('/flexible', async(req, res, next) =>{
+    const places = await LocationService.findAll()
+
+    if(!places) res.send('Please add places that you want to go!')
+      else if(places.length == 2) res.send('Only two places are in the list. Flexible route not needed here.')
+        else{
+          const sorting = DirectionService.getFlexDirection(places)
+          res.send(sorting)
+        }
+
+
+})
 
 
 

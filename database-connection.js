@@ -1,5 +1,7 @@
 const mongoose = require('mongoose')
 
-mongoose.connect('mongodb://localhost/mappie-yuan', {useMongoClient:true})
-
 mongoose.Promise = global.Promise
+
+const connectionString = process.env.DB_URL || 'mongodb://localhost/wtm'
+
+mongoose.connect(connectionString, { useMongoClient: true })

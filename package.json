@@ -13,6 +13,8 @@
     "@google/maps": "^0.4.5",
     "axios": "^0.17.1",
     "cookie-parser": "^1.4.3",
+    "express": "^4.16.2",
+    "express-validator": "^4.3.0",
     "mongoose": "^4.13.4",
     "mongoose-sequence": "^4.0.1",
     "pug": "^2.0.0-rc.4"

@@ -24,12 +24,14 @@ router.get('/', async(req, res, next) =>{
     const places = await LocationService.findAll()
     var direction = [];
 
-    if(!places) {const response ='Please input addresses you want to go.'}
+    if(!places) {const response ='Please input addresses you want to go.'
+                  res.send(response)}
    
 
        else if(places.length === 1){                        //Check no. of places   
          const response = 'Just stay there, you do not need me.'
          console.log('only one place')
+         res.send(response)
           }
 
         else if(places.length === 2){                    //Simple fetch direction
@@ -38,6 +40,7 @@ router.get('/', async(req, res, next) =>{
              if(!err){
              result.steps.forEach(function(element){
                 res.write(element.html_instructions + '\n')
+                res.send()
                 })
              }
            });

@@ -19,51 +19,10 @@ block content
         line-height: 30px;
         padding-left: 10px;
       }
-      #right-panel {
-        height: 80%;
-        float: right;
-        width: 120px;
-        overflow: auto;
-      }
-            #right-panel {
-        font-family: 'Roboto','sans-serif';
-        line-height: 30px;
-        padding-left: 10px;
-      }
-
-      #right-panel select, #right-panel input {
-        font-size: 15px;
-      }
-
-      #right-panel select {
-        width: 100%;
-      }
-
-      #right-panel i {
-        font-size: 12px;
-      }
-      #right-panel {
-        height: 100%;
-        float: right;
-        width: 390px;
-        overflow: auto;
-      }
-      #map {
-        margin-right: 400px;
-      }
-      @media print {
-        #map {
-          height: 500px;
-          margin: 0;
-        }
-        #right-panel {
-          float: none;
-          width: auto;
-        }
-      }
     div(id="floating-panel")
         input(id = "address" type = "textbox" value = "Berlin")
         input(id = "submit" type = "button" value = "Search")
+        input(id = "add" type = "button" value = "Add")
     div(id = 'map')
     div(id="right-panel")
     script.
@@ -92,7 +51,17 @@ block content
           } else {
             alert('Geocode was not successful for the following reason: ' + status);
           }
-          console.log(JSON.stringify(results[0].geometry.location));
+          const coordinData = JSON.stringify(results[0].geometry.location);
+          const coordinate = JSON.parse(coordinData)
+          
+          document.getElementById('add').addEventListener('click', function() {
+          console.log('Sending command: \n' + "axios.post('/location', {Name: '"
+                    + address +"', Coordinate: '" + coordinate.lat + ',' + coordinate.lng + "'}).then(res => console.log(res.data))");
+          const commandData = {};
+          commandData.Name = address;
+          commandData. Coordinate = coordinate.lat+','+coordinate.lng
+          axios.post('/location', commandData).then(res => console.log(res.data))
+          });
         });
       }
     script(src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCQZFTZXjwBXhttTQjB2u8LjMZ1cpcde2o&callback=initMap")  

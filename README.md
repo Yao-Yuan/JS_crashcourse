@@ -20,23 +20,23 @@ Currently only accessible by contributor
 ### Usage
 
 You can visit the following URLs:
--http://localhost:9999
+* http://localhost:9999
 
 You can search for places and add them to location database.
--http://localhost:9999/location
+* http://localhost:9999/location
 
--http://localhost:9999/location/all
+* http://localhost:9999/location/all
 
--http://localhost:9999/direction
+* http://localhost:9999/direction
 
 Giving direction based on location database. The order is sequtial unless you set Type of a place as Start. 
--http://localhost:9999/direction/return
+* http://localhost:9999/direction/return
 
 Add direction return to Start or the first place in database.
--http://localhost:9999/direction/flexible
+* http://localhost:9999/direction/flexible
 
 Based on Start of first place, giving direction without order but hopefully route with least travel time.
--http://localhost:9999/direction/flexible/return
+* http://localhost:9999/direction/flexible/return
 
 Add return route to direction/flexible
 

@@ -23,9 +23,17 @@ async function clear() {
 }
 
 async function importAll(places) {
-    places.forEach(function(place){
-        LocationModel.create(place)
-    })
+    if(places){
+        const placeDB = [];
+        if(places.constructor ===Array){
+            places.forEach(function(place){
+                placeDB.push = LocationModel.create(place)
+            })
+        }
+        else {placeDB.push = LocationModel.create(place)}
+        return placeDB
+    }
+    else console.log('Import from nothing!')
 }
 
 function sortbyType(places) {
@@ -39,21 +47,22 @@ function sortbyType(places) {
           placeStack.push(element);
         }
         else {
-          if(placeStack.length>0){
-            if(placeStack[placeStack.length-1].Type === 'Destination')
-              placeStack.splice(placeStack.length-2, 0, element )
-              else placeStack.push(element);}
-              else placeStack.push(element);
+            if(placeStack.length>0){
+                if(placeStack[placeStack.length-1].Type === 'Destination')
+                    placeStack.splice(placeStack.length-2, 0, element )
+                else placeStack.push(element);}
+            else placeStack.push(element);
         }
       })
       return placeStack;
 }
 
-function swapOrder(indexA, indexB) {
+function swapOrder(indexA, indexB) {            //* further: add condition to prevent error
     const places = findAll();
     var temp = places[indexA];
     places[indexA] = places[indexB];
     places[indexB] = temp;
+    console.log(JSON.stringify(places))
     clear();
     importAll(places);
 }

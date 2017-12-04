@@ -1,3 +1,4 @@
+const fs = require('fs')
 const express = require('express')
 const router = express.Router()
 
@@ -33,7 +34,23 @@ router.delete('/', async (req, res, next) => {
     res.send('ok!')
 })
 
-router.post('/swap:idA:idB', async(req,res, next) => {
+router.post('/import', async (req, res, next) => {            //Only for presentation
+    await LocationService.clear()
+    await fs.readFile('./routes/db.json', 'utf8', async (err, contents) =>{
+        console.log(contents)
+        if(err) console.log ('import error!')
+        else{
+            const data = JSON.parse(contents);
+                if(data.length){
+                    const direction = await LocationService.importAll(data);
+                    res.send(direction)
+            }
+        else res.send("No available data from filesystem!")
+        }
+    })
+})
+
+router.post('/swap:idA;:idB', async(req,res, next) => {
     await LocationService.swapOrder(req.params.idA, req.params.idB)
     res.send('ok!')
 })

@@ -50,7 +50,7 @@ async function getDirectionOne(From, To){           //Get direction from A to B.
     
     })}
 
-async function getFlexDirection(places) {        //Naive implementation: local optimal path -- always find the nearest one
+async function getFlexDirection(places,returnFlag) {        //Naive implementation: local optimal path -- always find the nearest one
     return new Promise(async (resolve, reject) => {
         var duration = [];
         var direction = [];
@@ -76,8 +76,10 @@ async function getFlexDirection(places) {        //Naive implementation: local o
             places.splice(0, 1, buffer);    //replace first place by the last closest place
             duration = [];
         }
+        if(returnFlag){
         const backRoute = await getDirectionOne(places[0], startBase);   //route back to places[0]
         route.push(backRoute)
+        }
         resolve(route)
         })
 }

@@ -87,7 +87,7 @@ router.get('/flexible', async(req, res, next) =>{
     else if(places.length === 2) res.send('Only two places are in the list. Flexible route not needed here.')
       else{
         const placeStack = await LocationService.sortbyType(places);
-        const routes = await DirectionService.getFlexDirection(places)
+        const routes = await DirectionService.getFlexDirection(placeStack)
         routes.forEach(function(route){
           time += route.duration.value
         })
@@ -103,7 +103,7 @@ router.get('/flexible/return', async(req, res, next) =>{
     else if(places.length === 2) res.send('Only two places are in the list. Flexible route not needed here.')
       else{
         const placeStack = await LocationService.sortbyType(places);
-        const routes = await DirectionService.getFlexDirection(places, 1)
+        const routes = await DirectionService.getFlexDirection(placeStack, 1)
 
         routes.forEach(function(route){
           time += route.duration.value

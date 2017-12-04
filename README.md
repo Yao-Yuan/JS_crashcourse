@@ -1,10 +1,10 @@
-#Mappie version 0.0.1
+# Mappie version 0.0.1
 
-##Devoting to plan your travel
+## Devoting to plan your travel
 
-###Quick Start
+### Quick Start
 
-####Local
+#### Local
 ```
 git clone https://github.com/Yao-Yuan/JS_crashcourse.git
 cd JS_crashcourse
@@ -12,12 +12,12 @@ git checkout Project
 npm install
 node index.js
 ```
-####On Server
+#### On Server
 
 IP address is 159.89.16.186
 Currently only accessible by contributor
 
-###Usage
+### Usage
 
 You can visit the following URLs:
 -http://localhost:9999
@@ -40,7 +40,7 @@ Based on Start of first place, giving direction without order but hopefully rout
 
 Add return route to direction/flexible
 
-####Multiple operations are supported in http://localhost:9999/location
+#### Multiple operations are supported in http://localhost:9999/location
 
 Example usage
 ```
